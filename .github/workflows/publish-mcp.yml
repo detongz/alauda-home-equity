@@ -1,0 +1,26 @@
+name: Publish MCP Registry entry
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: read
+  id-token: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify release version and install publisher
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(jq -r .version server.json)" = "${GITHUB_REF_NAME#v}"
+          archive=mcp-publisher_linux_amd64.tar.gz
+          curl -fsSLo "$archive" "https://github.com/modelcontextprotocol/registry/releases/download/v1.8.9/$archive"
+          echo "4d527ca8f1ced0394c962dc925c2a4a4addef441cbefd62501c875e9481823a8  $archive" | sha256sum -c -
+          tar -xzf "$archive" mcp-publisher
+      - name: Validate and publish
+        run: |
+          ./mcp-publisher validate
+          ./mcp-publisher login github-oidc
+          ./mcp-publisher publish
