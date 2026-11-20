@@ -1,0 +1,14 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.detongz/alauda-home-equity",
+  "title": "Alauda Home Equity",
+  "description": "Estimate home equity, compare borrowing options and look up HELOC rates and lender terms.",
+  "version": "1.0.0",
+  "websiteUrl": "https://www.alauda.ai/for-ai-agents?utm_source=mcp_registry&utm_medium=referral&utm_campaign=home_equity",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.alauda.ai/mcp"
+    }
+  ]
+}
